@@ -52,7 +52,24 @@ contract CrowdFunding {
     // The amount of Ether (in Wei) sent with the transaction is accessible    
     // within the function via the msg.value variable.
     function donateToCampaign(uint256 _id) public payable {
+        uint256 amount = mag.value;
 
+        // In Solidity, when you declare a variable with the storage keyword, 
+        // you're creating a reference to a storage slot rather than creating a 
+        // new copy of the data. So, when you modify a variable declared with storage, 
+        // you're directly modifying the data in storage, which reflects on the global state.
+
+        // the local variable campaign is a pointer to a slot on global campaigns
+        Campaign storage campaign = campaigns[_id];
+
+        campaign.donators.push(msg.sender);
+        campaign.donations.push(amount);
+
+        (bool sent,) = payable(campaign.owner).call{value: amount}("");
+
+        if (sent){
+            campaign.amountCollected = campaign.amountCollected + amount;
+        }
     }
 
     function getDonators() {}
