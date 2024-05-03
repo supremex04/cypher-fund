@@ -32,7 +32,7 @@ contract CrowdFunding {
     
         Campaign storage campaign = campaigns[numberOfCampaigns];
 
-        require(campaign.deadline < block.timestamp, "Deadline should be a date in the future.")
+        require(campaign.deadline < block.timestamp, "Deadline should be a date in the future.");
         campaign.owner = _owner;
         campaign.title = _title;
         campaign.description = _description;
@@ -52,7 +52,7 @@ contract CrowdFunding {
     // The amount of Ether (in Wei) sent with the transaction is accessible    
     // within the function via the msg.value variable.
     function donateToCampaign(uint256 _id) public payable {
-        uint256 amount = mag.value;
+        uint256 amount = msg.value;
 
         // In Solidity, when you declare a variable with the storage keyword, 
         // you're creating a reference to a storage slot rather than creating a 
@@ -72,7 +72,23 @@ contract CrowdFunding {
         }
     }
 
-    function getDonators() {}
+    function getDonators(uint256 _id) view public returns (address[] memory, uint256[] memory){
+        return (campaigns[_id].donators, campaigns[_id].donations);
+    }
 
-    function getCampaigns() {}
+    function getCampaigns() public view returns(Campaign[] memory) {
+        // allCampaigns is array of elements of type Campaign[] structures
+        // the size of array is equal to numberOfCampaigns
+        Campaign[] memory allCampaigns = new Campaign[](numberOfCampaigns);
+
+        for (uint256 i = 0; i <numberOfCampaigns; i++){
+            // fetching the specific campaign from storage
+            // and populating it to allCampaigns
+            Campaign storage item = campaigns[i];
+            allCampaigns[i] = item;
+        }
+
+        return allCampaigns;
+
+    }
 }
