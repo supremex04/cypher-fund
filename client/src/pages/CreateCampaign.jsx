@@ -19,7 +19,15 @@ const CreateCampaign = () => {
     deadline: '',
     image: ''
   });
-  const handleSubmit = () => {
+
+  const handleFormFieldChange = (fieldName, e) => {
+    setForm({ ...form, [fieldName]: e.target.value })
+  }
+  const handleSubmit = (e) => {
+    // the default browser behaviour is to refresh the page after
+    // form submission but we dont want to do that
+    e.preventDefault();
+    console.log(form);
 
   }
   return (
@@ -77,6 +85,13 @@ const CreateCampaign = () => {
       />
 
       </div>
+      <FormField 
+            labelName="Campaign image *"
+            placeholder="Place image URL of your campaign"
+            inputType="url"
+            value={form.image}
+            handleChange={(e) => handleFormFieldChange('image', e)}
+      />
       <div className="flex justify-center items-center mt-[40px]">
             <CustomButton 
               btnType="submit"
