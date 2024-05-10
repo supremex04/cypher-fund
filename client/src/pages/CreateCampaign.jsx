@@ -22,10 +22,23 @@ const CreateCampaign = () => {
   const handleFormFieldChange = (fieldName, e) => {
     setForm({ ...form, [fieldName]: e.target.value })
   }
-  const handleSubmit = (e) => {
+
+  // make it async since smart contract tx cost time
+  const handleSubmit = async (e) => {
     // the default browser behaviour is to refresh the page after
     // form submission but we dont want to do that
     e.preventDefault();
+    checkIfImage(form.image, async (exists) => {
+      if(exists) {
+        setIsLoading(true)
+        await createCampaign({ ...form, target: ethers.utils.parseUnits(form.target, 18)})
+        setIsLoading(false);
+        navigate('/');
+      } else {
+        alert('Provide valid image URL')
+        setForm({ ...form, image: '' });
+      }
+    })
     console.log(form);
 
   }
