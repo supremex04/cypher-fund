@@ -45,12 +45,33 @@ export const StateContextProvider = ({children}) => {
         // console.log(parsedCampaings);
       }
 
+      const donate = async (pId, amount) => {
+        const data = await contract.call('donateToCampaign', [pId], { value: ethers.utils.parseEther(amount)});
+    
+        return data;
+      }
+
       const getUserCampaigns = async () => {
         const allCampaigns = await getCampaigns();
     
         const filteredCampaigns = allCampaigns.filter((campaign) => campaign.owner === address);
     
         return filteredCampaigns;
+      }
+      const getDonations = async (pId) => {
+        const donations = await contract.call('getDonators', [pId]);
+        const numberOfDonations = donations[0].length;
+    
+        const parsedDonations = [];
+    
+        for(let i = 0; i < numberOfDonations; i++) {
+          parsedDonations.push({
+            donator: donations[0][i],
+            donation: ethers.utils.formatEther(donations[1][i].toString())
+          })
+        }
+    
+        return parsedDonations;
       }
 
 
@@ -64,7 +85,9 @@ export const StateContextProvider = ({children}) => {
             connect,
             createCampaign: publishCampaign,
             getCampaigns,
-            getUserCampaigns
+            getUserCampaigns,
+            donate,
+            getDonations
           }}
         >
           {children}
