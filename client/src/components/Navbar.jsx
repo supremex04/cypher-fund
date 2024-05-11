@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {CustomButton} from "./"
-import {logo, menu, search, thirdweb} from "../assets";
+import {logo, menu, search, user} from "../assets";
 import {navlinks} from "../constants";
 import { useStateContext } from '../context';
 
@@ -33,7 +33,7 @@ const Navbar = () => {
         <Link to="/profile">
           <div className=" w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
             {/* <img src={thirdweb} alt="user" className="w-[60%] h-[60%] object-contain" /> */}
-            <img src={thirdweb} alt="user" className="object-contain" />
+            <img src={user} alt="user" className="object-contain" />
           </div>
         </Link>
 
