@@ -9,10 +9,10 @@ const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => (
   <div
     className={`w-[48px] h-[48px] rounded-[10px] 
   ${isActive && isActive === name && "bg-[#2c2f33]"} flex justify-center
-  items-center ${!disabled && "cursor-pointer"} ${styles}`}
+  items-center ${!disabled && "cursor-pointer"} ${styles} hover:shadow-secondary hover:scale-110 transition-transform duration-200`}
     onClick={handleClick}
   >
-   {/* icons are originally green
+    {/* icons are originally green
        if the icon is not selected we set it */}
     {!isActive ? (
       <img src={imgUrl} alt="fund_logo" className="w-1/2 h-1/2" />
@@ -21,17 +21,20 @@ const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => (
         src={imgUrl}
         alt="fund_logo"
         className={`w-1/2 h-1/2
-         ${isActive !== name && "grayscale" }`}
+         ${isActive !== name && "grayscale"}`}
       />
     )}
   </div>
 );
 const Sidebar = () => {
-  // The useNavigate hook returns a navigate function that allows you to programmatically 
+  // The useNavigate hook returns a navigate function that allows you to programmatically
   // navigate to different pages within your application.
-  // Essentially, it provides a way to navigate to different routes without relying on <Link> 
+  // Essentially, it provides a way to navigate to different routes without relying on <Link>
   // components or history.push().
   const navigate = useNavigate();
+  // isActive state variable is declared
+  // State variables are part of a component's state, which means they trigger
+  // re-renders when their values change, causing React to update the UI accordingly.
   const [isActive, setIsActive] = useState("dashboard");
   return (
     <div className="flex justify-between items-center flex-col sticky top-5 h-[93vh]">
@@ -57,7 +60,7 @@ const Sidebar = () => {
             />
           ))}
         </div>
-        <Icon styles="bg-[#1c1c24] shadow-secondary" imgUrl={sun} />
+        <Icon styles="bg-[#1c1c24]" imgUrl={sun} />
       </div>
     </div>
   );
