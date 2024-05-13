@@ -9,7 +9,7 @@ const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => (
   <div
     className={`w-[48px] h-[48px] rounded-[10px] 
   ${isActive && isActive === name && "bg-[#2c2f33]"} flex justify-center
-  items-center ${!disabled && "cursor-pointer"} ${styles} hover:shadow-secondary hover:scale-110 transition-transform duration-200`}
+  items-center ${!disabled && "cursor-pointer"} ${styles} hover:shadow-secondary hover:scale-105 transition-transform duration-200`}
     onClick={handleClick}
   >
     {/* icons are originally green
