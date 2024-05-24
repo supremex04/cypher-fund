@@ -58,11 +58,8 @@ export const StateContextProvider = ({ children }) => {
     }));
 
     const activeCampaigns = parsedCampaigns.filter(campaign => campaign.deadline/1000 >= currentTime);
-
-
     return activeCampaigns;
 
-    // console.log(parsedCampaings);
   };
 
   const donate = async (pId, amount) => {
