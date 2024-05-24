@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { favicon, sun } from "../assets";
 import { navlinks } from "../constants";
+import { useDisconnect } from "@thirdweb-dev/react";
 
 const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => (
   // template string
@@ -32,6 +33,8 @@ const Sidebar = () => {
   // Essentially, it provides a way to navigate to different routes without relying on <Link>
   // components or history.push().
   const navigate = useNavigate();
+  const disconnect = useDisconnect();
+
   // isActive state variable is declared
   // State variables are part of a component's state, which means they trigger
   // re-renders when their values change, causing React to update the UI accordingly.
@@ -53,8 +56,12 @@ const Sidebar = () => {
               isActive={isActive}
               handleClick={() => {
                 if (!link.disabled) {
-                  setIsActive(link.name);
-                  navigate(link.link);
+                  if (link.name === 'logout') {
+                    disconnect();
+                  } else {
+                    setIsActive(link.name);
+                    navigate(link.link);
+                  }
                 }
               }}
             />
