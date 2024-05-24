@@ -10,7 +10,7 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    "0xd5FE5300D5191f0e9fA36a59bBBdF43Cbfef469f"
+    "0x560D55E6F42D2F3BbB051a12E4Cc80AAE25D456f"
   );
   // This part of the code uses object destructuring to extract the mutateAsync function from the 
   // object returned by useContractWrite. It then assigns this function to a new variable named createCampaign.
@@ -42,8 +42,9 @@ export const StateContextProvider = ({ children }) => {
   };
 
   const getCampaigns = async () => {
+    const currentTime = Math.floor(Date.now() / 1000);
     const campaigns = await contract.call("getCampaigns");
-    const parsedCampaings = campaigns.map((campaign, i) => ({
+    const parsedCampaigns = campaigns.map((campaign, i) => ({
       owner: campaign.owner,
       title: campaign.title,
       description: campaign.description,
@@ -56,7 +57,10 @@ export const StateContextProvider = ({ children }) => {
       pId: i,
     }));
 
-    return parsedCampaings;
+    const activeCampaigns = parsedCampaigns.filter(campaign => campaign.deadline/1000 >= currentTime);
+
+
+    return activeCampaigns;
 
     // console.log(parsedCampaings);
   };
