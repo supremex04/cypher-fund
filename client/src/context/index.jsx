@@ -22,6 +22,7 @@ export const StateContextProvider = ({ children }) => {
   const connect = useMetamask();
   const publishCampaign = async (form) => {
     try {
+      const deadlineInSeconds = Math.floor(new Date(form.deadline).getTime() / 1000);
       const data = await createCampaign({
         args: [
           address, // owner
@@ -30,7 +31,7 @@ export const StateContextProvider = ({ children }) => {
           form.target,
           // The new Date(form.deadline).getTime() expression converts the 
           // deadline provided in the form object to a Unix timestamp.
-          new Date(form.deadline).getTime(), // deadline,
+          deadlineInSeconds, // deadline,
           form.image,
         ],
       });
