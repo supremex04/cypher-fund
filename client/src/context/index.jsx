@@ -10,7 +10,8 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    "0x560D55E6F42D2F3BbB051a12E4Cc80AAE25D456f"
+    "0xe7862Dda1c2fFA374F7491305541983E193B0EAd"
+    // "0x560D55E6F42D2F3BbB051a12E4Cc80AAE25D456f"
   );
   // This part of the code uses object destructuring to extract the mutateAsync function from the 
   // object returned by useContractWrite. It then assigns this function to a new variable named createCampaign.
@@ -31,7 +32,8 @@ export const StateContextProvider = ({ children }) => {
           form.target,
           // The new Date(form.deadline).getTime() expression converts the 
           // deadline provided in the form object to a Unix timestamp.
-          deadlineInSeconds, // deadline,
+          deadlineInSeconds,
+          // new Date(form.deadline).getTime(), // deadline,
           form.image,
         ],
       });
@@ -58,7 +60,7 @@ export const StateContextProvider = ({ children }) => {
       pId: i,
     }));
 
-    const activeCampaigns = parsedCampaigns.filter(campaign => campaign.deadline/1000 >= currentTime);
+    const activeCampaigns = parsedCampaigns.filter(campaign => campaign.deadline >= currentTime);
     return activeCampaigns;
 
   };
